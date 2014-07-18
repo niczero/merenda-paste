@@ -1,0 +1,14 @@
+Changes
+LICENSE
+Makefile.PL
+MANIFEST
+MANIFEST.SKIP
+README.md
+cfg/example_app.conf
+lib/Merenda/Paste.pm
+test/00-load.t
+test/10-paste.t
+test/ExampleApp.pm
+test/manifest.t
+test/pod.t
+test/version.t

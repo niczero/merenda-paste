@@ -1,0 +1,4 @@
+0.041 2014-07-18
+  * Changed to be a Mojolicious plugin.
+  * Added tests for failure cases.
+  * Separated browser and non-browser views.
