@@ -1,3 +1,6 @@
+0.051 2014-07-20
+  * Integrated lang selection to run_prettify.
+
 0.041 2014-07-18
   * Changed to be a Mojolicious plugin.
   * Added tests for failure cases.

@@ -30,6 +30,7 @@ sub startup {
 1;
 __DATA__
 @@ layouts/default.html.ep
+% my $lang = $c->param('lang') ? sprintf('&lang=%s', $c->param('lang')) : '';
 <!DOCTYPE>
 <html>
 <head>
@@ -39,6 +40,6 @@ __DATA__
 
 <body>
 <%= content %>
-<script src="//google-code-prettify.googlecode.com/svn/loader/run_prettify.js?autoload=true&skin=sons-of-obsidian"></script>
+<script src="//google-code-prettify.googlecode.com/svn/loader/run_prettify.js?autoload=true&skin=sons-of-obsidian<%== $lang %>"></script>
 </body>
 </html>

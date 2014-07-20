@@ -2,7 +2,7 @@ package Merenda::Paste;
 use Mojo::Base 'Mojolicious::Controller';
 push @Merenda::Paste::ISA, 'Mojolicious::Plugin';
 
-our $VERSION = 0.041;
+our $VERSION = 0.051;
 
 use Mojo::Asset::File;
 use Mojo::Util 'spurt', 'slurp';

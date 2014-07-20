@@ -53,9 +53,10 @@ subtest q{show} => sub {
   $t->get_ok($id1 .'?lang=1')->status_is(200)
       ->content_like(qr/XyZ/, 'retrieved first paste')
       ->content_like(qr/\bscript\b/, 'got pretty version');
-  $t->get_ok($id2 .'?lang=1')->status_is(200)
+  $t->get_ok($id2 .'?lang=sql')->status_is(200)
       ->content_like(qr/ABC/, 'retrieved second paste')
-      ->content_like(qr/\bscript\b/, 'got pretty version');
+      ->content_like(qr/\bscript\b/, 'got pretty version')
+      ->content_like(qr/\Qobsidian&lang=sql\E/, 'got lang-specific version');
 };
 
 subtest q{edit} => sub {
