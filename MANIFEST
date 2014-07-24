@@ -8,6 +8,7 @@ cfg/example_app.conf
 lib/Merenda/Paste.pm
 test/00-load.t
 test/10-paste.t
+test/example_app
 test/ExampleApp.pm
 test/manifest.t
 test/pod.t

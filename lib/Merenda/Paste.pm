@@ -2,7 +2,7 @@ package Merenda::Paste;
 use Mojo::Base 'Mojolicious::Controller';
 push @Merenda::Paste::ISA, 'Mojolicious::Plugin';
 
-our $VERSION = 0.051;
+our $VERSION = 0.061;
 
 use Mojo::Asset::File;
 use Mojo::Util 'spurt', 'slurp';
@@ -11,6 +11,15 @@ sub register {
   my ($plugin, $app, $cfg) = @_;
   push @{$app->renderer->classes}, 'Merenda::Paste';
   push @{$app->routes->namespaces}, 'Merenda';
+
+  my $id_domain = $cfg->{id}{domain} // [qw(     2 3 4 5 6 7 8 9
+      A B C D E F G H   J K L M N   P Q R S T U V W X Y Z
+      a b c d e f g h i j k   m n o p q r s t u v w x y z)];
+  my $cardinality = scalar @$id_domain;
+  $app->helper(paste_rand_char => sub { $id_domain->[int rand $cardinality] });
+
+  my $min_length = $cfg->{id}{min_length} || 2;
+  $app->helper(paste_min_length => sub { $min_length });
 }
 
 sub create {
@@ -36,13 +45,16 @@ sub show {
   return $self->redirect_to('paste_main')
     unless my $paste_id = $self->stash('paste_id');
 
+  # Establish content
   my $filepath = $self->app->home->rel_file("data/$paste_id");
   my $file = Mojo::Asset::File->new(path => $filepath) if -f $filepath;
   return $self->render(status => 410, data => 'Sorry, that paste has gone')
       unless $file and $file->size;
 
+  # Render decorated content for browsers
   return $self->render(pastie => slurp $filepath) if $self->param('lang');
 
+  # Render raw content
   $self->res->content->asset($file);
   $self->res->headers->content_type('text/plain');
   $self->rendered;
@@ -52,26 +64,13 @@ sub edit { shift->show(@_) }
 
 sub choose_id {
   my $self = shift;
-  my $paste_id = $self->rand_char . $self->rand_char;
+  my $paste_id = '';
+  $paste_id .= $self->paste_rand_char for 1 .. $self->paste_min_length;
 
   my $home = $self->app->home;
-  $paste_id .= $self->rand_char while -e $home->rel_file("data/$paste_id");
+  $paste_id .= $self->paste_rand_char
+    while -e $home->rel_file("data/$paste_id");
   return $paste_id;
-}
-
-sub rand_char {
-  my $self = shift;
-  my $i = int rand 62;  # 0..61
-  if ($i < 10) {
-    $i += 48;  # 0..9
-  }
-  elsif ($i < 36) {
-    $i += 55;  # A..Z
-  }
-  else {
-    $i += 61;  # a..z
-  }
-  return chr $i;
 }
 
 1;

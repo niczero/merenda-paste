@@ -1,3 +1,7 @@
+0.061 2014-07-24
+  * Made domain of random ids configurable.
+  * Made min length of random ids configurable.
+
 0.051 2014-07-20
   * Integrated lang selection to run_prettify.
 

@@ -1,0 +1,4 @@
+#!/usr/bin/env perl
+use lib 'test', 'lib', 'dep/lib';
+require Mojolicious::Commands;
+Mojolicious::Commands->start_app('ExampleApp');
